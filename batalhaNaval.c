@@ -1,40 +1,79 @@
 #include <stdio.h>
 
-// Desafio Batalha Naval - MateCheck
-// Este código inicial serve como base para o desenvolvimento do sistema de Batalha Naval.
-// Siga os comentários para implementar cada parte do desafio.
+
+#define TAMANHODOTABULEIRO 10
+#define TAMANHODONAVIO 3
+
+
+
+void exibirTabuleiro(int tabuleiro[TAMANHODOTABULEIRO][TAMANHODOTABULEIRO]) {
+    
+    printf("\nTabuleiro:\n\n");
+    for (int i = 0; i < TAMANHODOTABULEIRO; i++) {
+        for (int j = 0; j < TAMANHODOTABULEIRO; j++) {
+            printf("%d ", tabuleiro[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+
+
+int podePosicionarNavio(int tabuleiro[TAMANHODOTABULEIRO][TAMANHODOTABULEIRO], int linha, int coluna, char sentido) {
+    for (int i = 0; i < TAMANHODONAVIO; i++) {
+        int l = linha + (sentido == 'V' ? i : 0);
+        int c = coluna + (sentido == 'H' ? i : 0);
+
+        if (l >= TAMANHODOTABULEIRO || c >= TAMANHODOTABULEIRO) {
+            return 0; 
+        }
+        if (tabuleiro[l][c] != 0) {
+            return 0; 
+        }
+    }
+    return 1;
+}
+
+
+
+void posicionarNavio(int tabuleiro[TAMANHODOTABULEIRO][TAMANHODOTABULEIRO], int linha, int coluna, char sentido) {
+    for (int i = 0; i < TAMANHODONAVIO; i++) {
+        int l = linha + (sentido == 'V' ? i : 0);
+        int c = coluna + (sentido == 'H' ? i : 0);
+        tabuleiro[l][c] = 3;
+    }
+}
+
 
 int main() {
-    // Nível Novato - Posicionamento dos Navios
-    // Sugestão: Declare uma matriz bidimensional para representar o tabuleiro (Ex: int tabuleiro[5][5];).
-    // Sugestão: Posicione dois navios no tabuleiro, um verticalmente e outro horizontalmente.
-    // Sugestão: Utilize `printf` para exibir as coordenadas de cada parte dos navios.
+    int tabuleiro[TAMANHODOTABULEIRO][TAMANHODOTABULEIRO] = {0};
 
-    // Nível Aventureiro - Expansão do Tabuleiro e Posicionamento Diagonal
-    // Sugestão: Expanda o tabuleiro para uma matriz 10x10.
-    // Sugestão: Posicione quatro navios no tabuleiro, incluindo dois na diagonal.
-    // Sugestão: Exiba o tabuleiro completo no console, mostrando 0 para posições vazias e 3 para posições ocupadas.
+   
+    int linhaHorizontal = 3;
+    int colunaHorizontal = 3;
 
-    // Nível Mestre - Habilidades Especiais com Matrizes
-    // Sugestão: Crie matrizes para representar habilidades especiais como cone, cruz, e octaedro.
-    // Sugestão: Utilize estruturas de repetição aninhadas para preencher as áreas afetadas por essas habilidades no tabuleiro.
-    // Sugestão: Exiba o tabuleiro com as áreas afetadas, utilizando 0 para áreas não afetadas e 1 para áreas atingidas.
-
-    // Exemplos de exibição das habilidades:
-    // Exemplo para habilidade em cone:
-    // 0 0 1 0 0
-    // 0 1 1 1 0
-    // 1 1 1 1 1
     
-    // Exemplo para habilidade em octaedro:
-    // 0 0 1 0 0
-    // 0 1 1 1 0
-    // 0 0 1 0 0
+    int linhaVertical = 5;
+    int colunaVertical = 7;
 
-    // Exemplo para habilidade em cruz:
-    // 0 0 1 0 0
-    // 1 1 1 1 1
-    // 0 0 1 0 0
+    if (podePosicionarNavio(tabuleiro, linhaHorizontal, colunaHorizontal, 'H')) {
+        posicionarNavio(tabuleiro, linhaHorizontal, colunaHorizontal, 'H');
+    } else {
+        printf("Erro: Não foi possível posicionar o navio horizontal.\n");
+        return 1;
+    }
+
+    if (podePosicionarNavio(tabuleiro, linhaVertical, colunaVertical, 'V')) {
+        posicionarNavio(tabuleiro, linhaVertical, colunaVertical, 'V');
+    } else {
+        printf("Erro: Não foi possível posicionar o navio vertical.\n");
+        return 1;
+    }
+
+    exibirTabuleiro(tabuleiro);
+
 
     return 0;
+
+
 }
